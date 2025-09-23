@@ -35,22 +35,22 @@ interface DashboardProps {
 const Dashboard = ({ data, fileName, onReset }: DashboardProps) => {
   // 🧠 Dashboard state management
   const [activeTab, setActiveTab] = useState('overview');
-  
+
   // 🔧 WEEK 4: Add data processing state here
   // Example: const [filteredData, setFilteredData] = useState(data);
-  
+
   // 🔧 WEEK 5: Add file handling state here
   // Example: const [exportFormat, setExportFormat] = useState('csv');
-  
+
   // 🔧 WEEK 6: Add chart customization state here
   // Example: const [chartConfig, setChartConfig] = useState({});
-  
+
   // 🔧 WEEK 7: Add API integration state here
   // Example: const [externalData, setExternalData] = useState([]);
-  
+
   // 🔧 WEEK 8: Add personal analytics state here
   // Example: const [personalInsights, setPersonalInsights] = useState([]);
-  
+
   // 🔧 WEEK 9: Add AI insights state here
   // Example: const [aiGeneratedInsights, setAiGeneratedInsights] = useState([]);
 
@@ -63,7 +63,7 @@ const Dashboard = ({ data, fileName, onReset }: DashboardProps) => {
     const headers = Object.keys(data[0]);
     const csvContent = [
       headers.join(','),
-      ...data.map(row => 
+      ...data.map(row =>
         headers.map(header => {
           const value = row[header];
           // Handle values that might contain commas or quotes
@@ -74,7 +74,7 @@ const Dashboard = ({ data, fileName, onReset }: DashboardProps) => {
         }).join(',')
       )
     ].join('\n');
-    
+
     const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
@@ -98,8 +98,8 @@ Text Columns: ${summary.textColumns}
 
 KEY INSIGHTS
 =============
-${insights.map((insight, index) => 
-  `${index + 1}. ${insight.title}
+${insights.map((insight, index) =>
+      `${index + 1}. ${insight.title}
    ${insight.description}
    Confidence: ${insight.confidence}
    ${insight.column ? `Column: ${insight.column}` : ''}
@@ -108,15 +108,15 @@ ${insights.map((insight, index) =>
 MISSING DATA
 =============
 ${Object.entries(summary.missingValues)
-  .filter(([_, count]) => count > 0)
-  .map(([column, count]) => `${column}: ${count} missing values (${(count/summary.totalRows*100).toFixed(1)}%)`)
-  .join('\n') || 'No missing data detected'}
+        .filter(([_, count]) => count > 0)
+        .map(([column, count]) => `${column}: ${count} missing values (${(count / summary.totalRows * 100).toFixed(1)}%)`)
+        .join('\n') || 'No missing data detected'}
 
 COLUMN TYPES
 =============
 ${Object.entries(summary.columnTypes)
-  .map(([column, type]) => `${column}: ${type}`)
-  .join('\n')}
+        .map(([column, type]) => `${column}: ${type}`)
+        .join('\n')}
 `;
 
     const blob = new Blob([reportContent], { type: 'text/plain' });
@@ -172,7 +172,7 @@ ${Object.entries(summary.columnTypes)
             <p className="text-xs text-blue-600 mt-1">rows of data</p>
           </CardContent>
         </Card>
-        
+
         <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-green-800">Data Columns</CardTitle>
@@ -183,7 +183,7 @@ ${Object.entries(summary.columnTypes)
             <p className="text-xs text-green-600 mt-1">total fields</p>
           </CardContent>
         </Card>
-        
+
         <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-purple-800">Numeric Fields</CardTitle>
@@ -194,7 +194,7 @@ ${Object.entries(summary.columnTypes)
             <p className="text-xs text-purple-600 mt-1">for analysis</p>
           </CardContent>
         </Card>
-        
+
         <Card className="bg-gradient-to-br from-orange-50 to-orange-100 border-orange-200">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium text-orange-800">Data Quality</CardTitle>
@@ -202,8 +202,8 @@ ${Object.entries(summary.columnTypes)
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-orange-900">
-              {Object.values(summary.missingValues).every(count => count === 0) ? '100%' : 
-               `${(100 - (Object.values(summary.missingValues).reduce((a, b) => a + b, 0) / (summary.totalRows * summary.totalColumns) * 100)).toFixed(1)}%`}
+              {Object.values(summary.missingValues).every(count => count === 0) ? '100%' :
+                `${(100 - (Object.values(summary.missingValues).reduce((a, b) => a + b, 0) / (summary.totalRows * summary.totalColumns) * 100)).toFixed(1)}%`}
             </div>
             <p className="text-xs text-orange-600 mt-1">complete data</p>
           </CardContent>
